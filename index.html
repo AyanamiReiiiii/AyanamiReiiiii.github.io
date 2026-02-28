@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name's Home</title>
+    <style>
+        body {
+            background-color: #1a1a1a; /* Dark background */
+            color: #e0e0e0;           /* Light text */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #a29bfe; /* Light purple links */
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 0.9em;
+            border-bottom: 1px dotted #a29bfe;
+        }
+        .profile-section {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .bio { flex: 2; }
+        .portrait {
+            flex: 1;
+            max-width: 200px;
+            border: 1px solid #444;
+            padding: 5px;
+        }
+        .portrait img { width: 100%; height: auto; display: block; }
+        .divider {
+            border-top: 2px dotted #6c5ce7;
+            margin: 40px 0;
+        }
+        h1 { font-size: 1.8em; margin: 0; border-bottom: 2px dotted #444; display: inline-block; }
+        h2 { color: #a29bfe; font-size: 1.2em; }
+        .post-preview { margin-bottom: 30px; }
+        .date { color: #888; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>yourname's blog</h1>
+        <nav>
+            <a href="index.html">all posts</a>
+            <a href="#">Friends</a>
+            <a href="#">Math Expository Writing</a>
+            <a href="#">Math Education</a>
+        </nav>
+    </header>
+
+    <div class="profile-section">
+        <div class="bio">
+            <p>👋 Hello! My name is [Your Name]. I am a student at the University of Wisconsin-Madison.</p>
+            <p>I am interested in algebra and geometry. This site is where I share my notes and thoughts on mathematics.</p>
+            <p>Contact: [yourname] [at] wisc [dot] edu</p>
+        </div>
+        <div class="portrait">
+            <img src="profile.jpg" alt="My Portrait">
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="post-preview">
+        <h2># A simple introduction to Sheaves</h2>
+        <p class="date">Feb 28, 2026 • 5 min read</p>
+        <p>What makes a presheaf different from a sheaf? Let's look at the local-to-global property...</p>
+    </div>
+
+</body>
+</html>
