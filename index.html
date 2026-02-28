@@ -3,83 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name's Home</title>
+    <title>Your Name | Home</title>
     <style>
-        body {
-            background-color: #1a1a1a; /* Dark background */
-            color: #e0e0e0;           /* Light text */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-        nav a {
-            color: #a29bfe; /* Light purple links */
-            text-decoration: none;
-            margin-left: 15px;
-            font-size: 0.9em;
-            border-bottom: 1px dotted #a29bfe;
-        }
-        .profile-section {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .bio { flex: 2; }
-        .portrait {
-            flex: 1;
-            max-width: 200px;
-            border: 1px solid #444;
-            padding: 5px;
-        }
-        .portrait img { width: 100%; height: auto; display: block; }
-        .divider {
-            border-top: 2px dotted #6c5ce7;
-            margin: 40px 0;
-        }
-        h1 { font-size: 1.8em; margin: 0; border-bottom: 2px dotted #444; display: inline-block; }
-        h2 { color: #a29bfe; font-size: 1.2em; }
-        .post-preview { margin-bottom: 30px; }
-        .date { color: #888; font-size: 0.8em; }
+        :root { --accent: #2c3e50; --link: #c0392b; }
+        body { background: #ffffff; color: #333; font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.7; max-width: 900px; margin: 50px auto; padding: 0 30px; }
+        header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center; }
+        nav a { text-decoration: none; color: var(--accent); margin-left: 20px; font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: var(--link); }
+        .hero { display: grid; grid-template-columns: 1fr 250px; gap: 40px; align-items: center; }
+        .portrait img { width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1 { font-size: 2.2em; color: var(--accent); margin: 0; }
+        .section-title { border-left: 4px solid var(--link); padding-left: 15px; margin: 40px 0 20px; }
+        .post { margin-bottom: 25px; }
+        .post a { font-size: 1.2em; font-weight: bold; color: var(--accent); text-decoration: none; }
+        .post a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>yourname's blog</h1>
+        <h1>[Your Name]</h1>
         <nav>
-            <a href="index.html">all posts</a>
-            <a href="#">Friends</a>
-            <a href="#">Math Expository Writing</a>
-            <a href="#">Math Education</a>
+            <a href="index.html">Home</a>
+            <a href="writing.html">Writing</a>
+            <a href="education.html">Education</a>
+            <a href="friends.html">Friends</a>
         </nav>
     </header>
 
-    <div class="profile-section">
+    <div class="hero">
         <div class="bio">
-            <p>👋 Hello! My name is [Your Name]. I am a student at the University of Wisconsin-Madison.</p>
-            <p>I am interested in algebra and geometry. This site is where I share my notes and thoughts on mathematics.</p>
-            <p>Contact: [yourname] [at] wisc [dot] edu</p>
+            <p>Welcome! I am an undergraduate student at <strong>UW-Madison</strong>. My mathematical interests lie at the intersection of geometry and algebra.</p>
+            <p>Currently, I'm exploring the dynamics of translation surfaces and the structure of strata in moduli spaces. Feel free to reach out via email: <em>[username]@wisc.edu</em></p>
         </div>
-        <div class="portrait">
-            <img src="profile.jpeg" alt="My Portrait">
-        </div>
+        <div class="portrait"><img src="profile.jpeg" alt="Portrait"></div>
     </div>
 
-    <div class="divider"></div>
-
-    <div class="post-preview">
-        <h2># A simple introduction to Sheaves</h2>
-        <p class="date">Feb 28, 2026 • 5 min read</p>
-        <p>What makes a presheaf different from a sheaf? Let's look at the local-to-global property...</p>
+    <h2 class="section-title">Recent Work</h2>
+    <div class="post">
+        <a href="writing.html">Visualizing the H(6) Stratum</a>
+        <p>A look into the geometry of Abelian differentials and boundary equations.</p>
     </div>
-
 </body>
 </html>
