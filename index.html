@@ -3,51 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Home</title>
-    <meta name="description" content="Personal website of Yifan Mo, a math student at UW-Madison.">
-    <!-- <meta name="keywords" content="Yifan Mo"> -->
+    <title>Yifan Mo</title>
+    <meta name="description" content="Personal website of Yifan Mo, a math student at the University of Chicago.">
     <meta name="author" content="Yifan Mo">
-    <style>
-        :root { --accent: #2c3e50; --link: #c0392b; }
-        body { background: #ffffff; color: #333; font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.7; max-width: 900px; margin: 50px auto; padding: 0 30px; }
-        header { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center; }
-        nav a { text-decoration: none; color: var(--accent); margin-left: 20px; font-weight: 500; transition: 0.3s; }
-        nav a:hover { color: var(--link); }
-        .hero { display: grid; grid-template-columns: 1fr 250px; gap: 40px; align-items: center; }
-        .portrait img { width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { font-size: 2.2em; color: var(--accent); margin: 0; }
-        .section-title { border-left: 4px solid var(--link); padding-left: 15px; margin: 40px 0 20px; }
-        .post { margin-bottom: 25px; }
-        .post a { font-size: 1.2em; font-weight: bold; color: var(--accent); text-decoration: none; }
-        .post a:hover { text-decoration: underline; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>[Your Name]</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="writing.html">Writing</a>
-            <a href="education.html">Math Education</a>
-            <a href="compsci.html">Computer Science</a>
+
+    <!-- Hilbert curve loading animation -->
+    <div id="loader" aria-hidden="true">
+        <svg id="hilbert" viewBox="0 0 400 400">
+            <path id="curve" fill="none" stroke="#b3392e" stroke-width="2"
+                  stroke-linejoin="round" stroke-linecap="round"></path>
+        </svg>
+    </div>
+
+    <header class="site">
+        <span class="name"><a href="index.html">Yifan Mo</a></span>
+        <nav class="site">
+            <a href="index.html" class="current">Home</a>
+            <a href="math.html">Math</a>
+            <a href="cs.html">CS</a>
+            <a href="thoughts.html">Thoughts</a>
             <a href="friends.html">Friends</a>
         </nav>
     </header>
 
-    <div class="hero">
-        <div class="bio">
-            <p>Hi! I am an undergraduate student at University of Chicago. I am interested in mathematics, math education, and computer science. You can reach me at <em>yifanm at uchicago dot edu</em>
-            </p>
+    <main>
+        <div class="hero">
+            <div class="bio">
+                <h1>Hi, I'm Yifan.</h1>
+                <p>I'm an undergraduate student at the University of Chicago, interested in
+                   mathematics, math education, and computer science.</p>
+                <p>You can reach me at <em>yifanm at uchicago dot edu</em>.</p>
+            </div>
+            <div class="portrait"><img src="IMG_0195.jpeg" alt="Portrait of Yifan Mo"></div>
         </div>
-        <div class="portrait"><img src="IMG_0195.jpeg" alt="Portrait"></div>
-    </div>
 
-    <h2 class="section-title">Recent Update</h2>
-    <div class="post">
-        <a href="writing.html"> Cauchy's Theorem, variations, and consequences</a>
-        <p>Cauchy's theorem is, without doubt, at the center of complex analysis. I will update this article later</p>
-        <a href="writing.html"> A short parth through topology and Riemann Surfaces</a>
-        <p>Topics include Euler characteristic, Riemann-Hurwitz formula, and elliptic curves</p>
-    </div>
+        <h2 class="section">Recent Writings</h2>
+        <ul class="writings">
+            <li>
+                <span class="date">2026-07</span>
+                <a href="Math_Writings/Counting_with_Mobius_Function_Yifan.pdf" target="_blank" rel="noopener">Counting with the Möbius Function</a>
+            </li>
+            <li>
+                <span class="date">2026-06</span>
+                <a href="math.html">Cauchy's Theorem: Variations and Consequences</a>
+            </li>
+            <li>
+                <span class="date">2026-05</span>
+                <a href="math.html">A Short Path through Topology and Riemann Surfaces</a>
+            </li>
+        </ul>
+    </main>
+
+    <footer class="site">
+        &copy; Yifan Mo &middot; Built by hand, one curve at a time.
+    </footer>
+
+    <script>
+    (function () {
+        // Generate a Hilbert curve of the given order as an SVG path string.
+        // Oriented so it starts at the bottom-left corner and ends at the bottom-right.
+        function hilbertPath(order, size, margin) {
+            var n = 1 << order;
+            var scale = (size - 2 * margin) / (n - 1);
+            var d = "";
+            for (var i = 0; i < n * n; i++) {
+                // d2xy: convert distance along the curve to (x, y)
+                var x = 0, y = 0, t = i;
+                for (var s = 1; s < n; s *= 2) {
+                    var rx = (t >> 1) & 1;
+                    var ry = (t ^ rx) & 1;
+                    if (ry === 0) {
+                        if (rx === 1) { x = s - 1 - x; y = s - 1 - y; }
+                        var tmp = x; x = y; y = tmp;
+                    }
+                    x += s * rx;
+                    y += s * ry;
+                    t >>= 2;
+                }
+                var px = margin + x * scale;
+                var py = size - margin - y * scale; // flip y: start bottom-left, end bottom-right
+                d += (i === 0 ? "M" : "L") + px.toFixed(2) + " " + py.toFixed(2);
+            }
+            return d;
+        }
+
+        var path = document.getElementById("curve");
+        var loader = document.getElementById("loader");
+        path.setAttribute("d", hilbertPath(5, 400, 12));
+
+        var len = path.getTotalLength();
+        path.style.strokeDasharray = len;
+        path.style.strokeDashoffset = len;
+
+        // Force layout, then draw the curve over 2 seconds
+        path.getBoundingClientRect();
+        path.style.transition = "stroke-dashoffset 2s linear";
+        path.style.strokeDashoffset = "0";
+
+        setTimeout(function () {
+            document.body.classList.add("loaded");
+            loader.classList.add("fade");
+            setTimeout(function () { loader.remove(); }, 800);
+        }, 2100);
+    })();
+    </script>
 </body>
 </html>

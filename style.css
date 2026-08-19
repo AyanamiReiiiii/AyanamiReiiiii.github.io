@@ -1,0 +1,204 @@
+/* Shared styles — Yifan Mo's personal site */
+
+:root {
+  --ink: #222;
+  --muted: #777;
+  --faint: #e8e6e1;
+  --accent: #b3392e;
+  --paper: #fdfdfb;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Charter", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.65;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 56px 24px 80px;
+}
+
+/* ---------- header / nav ---------- */
+
+header.site {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--faint);
+  margin-bottom: 44px;
+}
+
+header.site .name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+header.site .name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+nav.site a {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: var(--muted);
+  margin-left: 18px;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+nav.site a:first-child { margin-left: 0; }
+nav.site a:hover { color: var(--accent); }
+nav.site a.current { color: var(--ink); border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+
+/* ---------- page fade-in ---------- */
+
+main { opacity: 0; transition: opacity 0.8s ease; }
+body.loaded main { opacity: 1; }
+
+/* Subpages have no loading animation — fade in immediately */
+body.no-loader main { opacity: 1; }
+
+/* ---------- home ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 168px;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 48px;
+}
+
+.hero h1 {
+  font-size: 1.7rem;
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+
+.hero .portrait img {
+  width: 100%;
+  border-radius: 6px;
+  display: block;
+}
+
+.hero p { margin: 0 0 12px; }
+
+h2.section {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin: 40px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--faint);
+}
+
+/* ---------- writings list ---------- */
+
+ul.writings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.86rem;
+}
+
+ul.writings li {
+  display: flex;
+  gap: 20px;
+  padding: 6px 0;
+  align-items: baseline;
+}
+
+ul.writings .date {
+  flex: 0 0 84px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.78rem;
+}
+
+ul.writings a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+ul.writings a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+ul.writings .forthcoming { color: var(--muted); }
+
+/* ---------- generic content ---------- */
+
+a { color: var(--accent); }
+
+p { margin: 0 0 14px; }
+
+ul.plain { padding-left: 20px; margin: 0 0 14px; }
+ul.plain li { margin-bottom: 6px; }
+
+.entry { margin-bottom: 26px; }
+.entry h3 { font-size: 1rem; margin: 0 0 4px; }
+.entry .meta {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+footer.site {
+  margin-top: 64px;
+  padding-top: 16px;
+  border-top: 1px solid var(--faint);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ---------- loading overlay ---------- */
+
+#loader {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 0.7s ease;
+}
+
+#loader.fade {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#loader svg { display: block; width: min(46vmin, 340px); height: auto; }
+
+@media (max-width: 560px) {
+  body { padding-top: 36px; }
+  .hero { grid-template-columns: 1fr; }
+  .hero .portrait { max-width: 180px; }
+  ul.writings li { flex-direction: column; gap: 0; }
+  ul.writings .date { flex: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #loader { display: none; }
+  main { opacity: 1; transition: none; }
+}
