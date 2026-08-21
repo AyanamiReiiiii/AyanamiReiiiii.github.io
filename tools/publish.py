@@ -182,10 +182,38 @@ class Handler(SimpleHTTPRequestHandler):
                 self.handle_upload(parsed)
             elif parsed.path == "/publish":
                 self.handle_publish()
+            elif parsed.path == "/delete":
+                self.handle_delete()
             else:
                 self.reply({"ok": False, "error": "unknown endpoint"})
         except Exception as e:  # noqa: BLE001
             self.reply({"ok": False, "error": str(e)})
+
+    def handle_delete(self):
+        """Delete a published post: its .html, its .md source, and its manifest entry."""
+        length = int(self.headers.get("Content-Length", 0))
+        data = json.loads(self.rfile.read(length).decode("utf-8"))
+        f = data.get("file", "")
+
+        # Only top-level .html files inside a category folder may be deleted
+        if not re.fullmatch(r"(math|cs|thoughts)/[^/]+\.html", f):
+            return self.reply({"ok": False, "error": "only published posts can be deleted this way"})
+
+        path = os.path.join(ROOT, f)
+        if not os.path.isfile(path):
+            return self.reply({"ok": False, "error": "file not found: " + f})
+
+        os.remove(path)
+        md_path = os.path.splitext(path)[0] + ".md"
+        if os.path.isfile(md_path):
+            os.remove(md_path)
+
+        wpath, entries = load_writings()
+        entries = [e for e in entries if e.get("file") != f]
+        save_writings(wpath, entries)
+
+        print(f"[delete] {f}")
+        self.reply({"ok": True, "file": f})
 
     def handle_upload(self, parsed):
         qs = parse_qs(parsed.query)

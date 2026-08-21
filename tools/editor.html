@@ -71,6 +71,12 @@
   }
   button#publish:hover { background: #993125; }
   button#publish:disabled { background: #cbb4b0; cursor: not-allowed; }
+  button#delete {
+    background: transparent; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 6px; padding: 9px 18px; font-size: 14px; cursor: pointer;
+  }
+  button#delete:hover { background: #f7ecea; }
+  button#delete:disabled { color: #cbb4b0; border-color: #cbb4b0; cursor: not-allowed; }
   #status { font-size: 12px; color: var(--muted); }
   #status.err { color: var(--accent); }
 
@@ -154,6 +160,7 @@ $$ \int_0^1 x^2 \, dx = \tfrac13 $$
 [link](https://example.com)"></textarea>
     <div class="actions">
       <button id="publish">Publish</button>
+      <button id="delete" hidden>Delete</button>
       <span id="status"></span>
     </div>
     <div id="banner"></div>
@@ -224,7 +231,7 @@ function mdToHtml(md) {
 var $ = function (id) { return document.getElementById(id); };
 var content = $('content'), preview = $('preview'), status = $('status');
 var title = $('title'), suggest = $('suggest'), titlewarn = $('titlewarn'), editbadge = $('editbadge');
-var banner = $('banner'), publishBtn = $('publish');
+var banner = $('banner'), publishBtn = $('publish'), deleteBtn = $('delete');
 
 $('date').value = new Date().toISOString().slice(0, 10);
 
@@ -366,6 +373,7 @@ function checkTitle() {
   var t = title.value.trim().toLowerCase();
   editbadge.style.display = editingFile ? 'block' : 'none';
   publishBtn.textContent = editingFile ? 'Update' : 'Publish';
+  deleteBtn.hidden = !editingFile;
 
   if (!t) {
     titlewarn.style.display = 'none';
@@ -479,6 +487,43 @@ publishBtn.addEventListener('click', function () {
     publishBtn.disabled = false;
     checkTitle();
   });
+});
+
+/* ---------- delete ---------- */
+
+deleteBtn.addEventListener('click', function () {
+  if (!editingFile) return;
+  var entry = writingsCache.find(function (w) { return w.file === editingFile; });
+  var name = entry ? entry.title : editingFile;
+  if (!confirm('Delete "' + name + '" permanently?\n\nThis removes the page, its markdown source, and its entry in every list (home page included).')) return;
+
+  deleteBtn.disabled = true;
+  fetch('/delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ file: editingFile })
+  })
+  .then(function (r) { return r.json(); })
+  .then(function (j) {
+    if (!j.ok) throw new Error(j.error || 'delete failed');
+    editingFile = null;
+    title.value = '';
+    $('desc').value = '';
+    content.value = '';
+    hideBanner();
+    banner.innerHTML = '';
+    var strong = document.createElement('strong');
+    strong.textContent = '✓ Deleted ' + j.file;
+    banner.appendChild(strong);
+    banner.style.display = 'block';
+    renderPreview();
+    refreshWritings();
+    checkTitle();
+  })
+  .catch(function (err) {
+    setStatus('✗ Delete failed: ' + err.message, 'err');
+  })
+  .finally(function () { deleteBtn.disabled = false; });
 });
 </script>
 

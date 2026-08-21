@@ -24,13 +24,6 @@ window.WRITINGS = [
     "file": "cs/2026-08-12-agents-are-amazing.html"
   },
   {
-    "title": "Why Write Exposition?",
-    "date": "2026-07-20",
-    "category": "thoughts",
-    "file": "thoughts/2026-07-20-why-write-exposition.html",
-    "desc": "Writing is the most honest test of understanding"
-  },
-  {
     "title": "Counting with the Möbius Function",
     "date": "2026-07-10",
     "category": "math",
