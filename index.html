@@ -33,7 +33,7 @@
         <div class="hero">
             <div class="bio">
                 <h1>Hi, I'm Yifan.</h1>
-                <p>I'm an undergraduate student at the University of Chicago, interested in
+                <p>I'm a student studying in US. I'm interested in
                    mathematics, math education, and computer science.</p>
                 <p>You can reach me at <em>yifanm at uchicago dot edu</em>.</p>
             </div>
@@ -41,16 +41,7 @@
         </div>
 
         <h2 class="section">Recent Writings</h2>
-        <ul class="writings">
-            <li>
-                <span class="date">2026-08</span>
-                <a href="Math_Writings/Riemann_Galois.pdf" target="_blank" rel="noopener">WTF is Riemann Surface?</a>
-            </li>
-            <li>
-                <span class="date">2026-07</span>
-                <a href="Math_Writings/Counting_with_Mobius_Function_Yifan.pdf" target="_blank" rel="noopener">Counting with the Möbius Function</a>
-            </li>
-        </ul>
+        <ul class="writings" id="recent-writings"></ul>
     </main>
 
     <footer class="site">
@@ -62,6 +53,8 @@
         </a>
     </footer>
 
+    <script src="writings.js"></script>
+    <script src="list.js"></script>
     <script>
     (function () {
         // Generate a Hilbert curve of the given order as an SVG path string.
@@ -120,6 +113,7 @@
             }, 110);
         }, 2050);
     })();
+    renderWritings(document.getElementById("recent-writings"), { limit: 8 });
     </script>
 </body>
 </html>

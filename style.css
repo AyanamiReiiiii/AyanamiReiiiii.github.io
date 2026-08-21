@@ -201,6 +201,22 @@ footer.site svg { display: block; }
 
 .post-body p { margin: 0 0 16px; }
 .post-body h2 { font-size: 1.1rem; margin: 32px 0 12px; }
+.post-body h3 { font-size: 1rem; margin: 26px 0 10px; }
+
+.post-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+  margin: 18px 0;
+}
+
+.post-body blockquote {
+  border-left: 3px solid var(--faint);
+  margin: 0 0 16px;
+  padding: 2px 0 2px 16px;
+  color: var(--muted);
+}
 
 .post-body pre {
   background: #f4f2ee;
