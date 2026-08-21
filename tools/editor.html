@@ -107,7 +107,7 @@ window.MathJax = {
 <body>
 
 <header>
-  <h1>New writing</h1>
+  <h1>New writing <span style="font-size:11px;color:#777;font-weight:400">v1.2 · with title search</span></h1>
   <span class="hint">Markdown + $LaTeX$ on the left &middot; live preview on the right</span>
 </header>
 
@@ -311,7 +311,14 @@ function showSuggestions() {
     li.addEventListener('mousedown', function (e) { e.preventDefault(); loadWriting(w); });
     suggest.appendChild(li);
   });
-  suggest.hidden = matches.length === 0;
+  if (matches.length === 0 && q) {
+    var none = document.createElement('li');
+    none.style.cursor = 'default';
+    none.style.color = '#777';
+    none.textContent = 'No editable writings match in this category';
+    suggest.appendChild(none);
+  }
+  suggest.hidden = suggest.children.length === 0;
 }
 
 function hideSuggestions() { suggest.hidden = true; }

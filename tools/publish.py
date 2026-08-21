@@ -125,6 +125,8 @@ class Handler(SimpleHTTPRequestHandler):
         if parsed.path in ("/", "/index.html", "/editor"):
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
+            # Browsers love caching this page; never serve a stale editor
+            self.send_header("Cache-Control", "no-store")
             self.end_headers()
             with open(os.path.join(ROOT, "tools", "editor.html"), "rb") as f:
                 self.wfile.write(f.read())
