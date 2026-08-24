@@ -5,6 +5,12 @@
 
 window.WRITINGS = [
   {
+    "title": "On IDE, git, and workflow (To be updated)",
+    "date": "2026-08-24",
+    "category": "cs",
+    "file": "cs/2026-08-24-on-ide-git-and-workflow-to-be-updated.html"
+  },
+  {
     "title": "Arcane season 1&2 review",
     "date": "2026-08-20",
     "category": "thoughts",

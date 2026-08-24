@@ -8,15 +8,7 @@
     <meta name="author" content="Yifan Mo">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-    <!-- Hilbert curve loading animation -->
-    <div id="loader" aria-hidden="true">
-        <svg id="hilbert" viewBox="0 0 400 400">
-            <path id="curve" fill="none" stroke="#222" stroke-width="3"
-                  stroke-linejoin="round" stroke-linecap="round"></path>
-        </svg>
-    </div>
+<body class="no-loader">
 
     <header class="site">
         <span class="name"><a href="index.html">Yifan Mo</a></span>
@@ -56,63 +48,6 @@
     <script src="writings.js"></script>
     <script src="list.js"></script>
     <script>
-    (function () {
-        // Generate a Hilbert curve of the given order as an SVG path string.
-        // Oriented so it starts at the bottom-left corner and ends at the bottom-right.
-        function hilbertPath(order, size, margin) {
-            var n = 1 << order;
-            var scale = (size - 2 * margin) / (n - 1);
-            var d = "";
-            for (var i = 0; i < n * n; i++) {
-                // d2xy: convert distance along the curve to (x, y)
-                var x = 0, y = 0, t = i;
-                for (var s = 1; s < n; s *= 2) {
-                    var rx = (t >> 1) & 1;
-                    var ry = (t ^ rx) & 1;
-                    if (ry === 0) {
-                        if (rx === 1) { x = s - 1 - x; y = s - 1 - y; }
-                        var tmp = x; x = y; y = tmp;
-                    }
-                    x += s * rx;
-                    y += s * ry;
-                    t >>= 2;
-                }
-                var px = margin + x * scale;
-                var py = size - margin - y * scale; // flip y: start bottom-left, end bottom-right
-                d += (i === 0 ? "M" : "L") + px.toFixed(2) + " " + py.toFixed(2);
-            }
-            return d;
-        }
-
-        var path = document.getElementById("curve");
-        var loader = document.getElementById("loader");
-        var svg = document.getElementById("hilbert");
-        path.setAttribute("d", hilbertPath(4, 400, 16));
-
-        var len = path.getTotalLength();
-        path.style.strokeDasharray = len;
-        path.style.strokeDashoffset = len;
-
-        // Force layout, then draw the curve over 2 seconds
-        path.getBoundingClientRect();
-        path.style.transition = "stroke-dashoffset 2s linear";
-        path.style.strokeDashoffset = "0";
-
-        setTimeout(function () {
-            // A quick "button press" bounce: shrink slightly, then spring back
-            svg.style.transition = "transform 0.1s ease-in";
-            svg.style.transform = "scale(0.88)";
-            setTimeout(function () {
-                svg.style.transition = "transform 0.16s ease-out";
-                svg.style.transform = "scale(1)";
-                setTimeout(function () {
-                    document.body.classList.add("loaded");
-                    loader.classList.add("fade");
-                    setTimeout(function () { loader.remove(); }, 800);
-                }, 180);
-            }, 110);
-        }, 2050);
-    })();
     renderWritings(document.getElementById("recent-writings"), { limit: 8 });
     </script>
 </body>

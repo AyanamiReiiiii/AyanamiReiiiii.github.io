@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Archived: Hilbert curve loading animation</title>
+</head>
+<body>
+<h1>Hilbert curve loading animation (archived)</h1>
+<p>
+This is the loading animation that used to run on the home page
+(removed 2026-08-24). It draws an order-4 Hilbert space-filling curve,
+bottom-left to bottom-right, over 2 seconds, does a quick "button press"
+bounce, then fades out as the page fades in.
+</p>
+
+<h2>How to re-enable it on index.html</h2>
+<ol>
+  <li>Remove <code>class="no-loader"</code> from the <code>&lt;body&gt;</code> tag of index.html.</li>
+  <li>Paste the <b>OVERLAY HTML</b> block below right after <code>&lt;body&gt;</code>.</li>
+  <li>Paste the <b>SCRIPT</b> block below before <code>&lt;/body&gt;</code>
+      (keep the <code>renderWritings(...)</code> call that is already there).</li>
+</ol>
+<p>
+The CSS for <code>#loader</code> is still in style.css (section
+"loading overlay") — no style changes needed. The same animation code
+works for any curve: swap <code>hilbertPath(...)</code> for any function
+that returns an SVG path string to design a different loading animation.
+Knobs: curve order (4 → denser/sparser), the 2s draw time, the bounce
+scales/timings at the bottom of the script.
+</p>
+
+<hr>
+<h2>OVERLAY HTML (paste after &lt;body&gt;)</h2>
+<pre>
+&lt;!-- Hilbert curve loading animation --&gt;
+&lt;div id="loader" aria-hidden="true"&gt;
+    &lt;svg id="hilbert" viewBox="0 0 400 400"&gt;
+        &lt;path id="curve" fill="none" stroke="#222" stroke-width="3"
+              stroke-linejoin="round" stroke-linecap="round"&gt;&lt;/path&gt;
+    &lt;/svg&gt;
+&lt;/div&gt;
+</pre>
+
+<hr>
+<h2>SCRIPT (paste before &lt;/body&gt;)</h2>
+<pre>
+&lt;script&gt;
+(function () {
+    // Generate a Hilbert curve of the given order as an SVG path string.
+    // Oriented so it starts at the bottom-left corner and ends at the bottom-right.
+    function hilbertPath(order, size, margin) {
+        var n = 1 &lt;&lt; order;
+        var scale = (size - 2 * margin) / (n - 1);
+        var d = "";
+        for (var i = 0; i &lt; n * n; i++) {
+            // d2xy: convert distance along the curve to (x, y)
+            var x = 0, y = 0, t = i;
+            for (var s = 1; s &lt; n; s *= 2) {
+                var rx = (t &gt;&gt; 1) &amp; 1;
+                var ry = (t ^ rx) &amp; 1;
+                if (ry === 0) {
+                    if (rx === 1) { x = s - 1 - x; y = s - 1 - y; }
+                    var tmp = x; x = y; y = tmp;
+                }
+                x += s * rx;
+                y += s * ry;
+                t &gt;&gt;= 2;
+            }
+            var px = margin + x * scale;
+            var py = size - margin - y * scale; // flip y: start bottom-left, end bottom-right
+            d += (i === 0 ? "M" : "L") + px.toFixed(2) + " " + py.toFixed(2);
+        }
+        return d;
+    }
+
+    var path = document.getElementById("curve");
+    var loader = document.getElementById("loader");
+    var svg = document.getElementById("hilbert");
+    path.setAttribute("d", hilbertPath(4, 400, 16));
+
+    var len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+
+    // Force layout, then draw the curve over 2 seconds
+    path.getBoundingClientRect();
+    path.style.transition = "stroke-dashoffset 2s linear";
+    path.style.strokeDashoffset = "0";
+
+    setTimeout(function () {
+        // A quick "button press" bounce: shrink slightly, then spring back
+        svg.style.transition = "transform 0.1s ease-in";
+        svg.style.transform = "scale(0.88)";
+        setTimeout(function () {
+            svg.style.transition = "transform 0.16s ease-out";
+            svg.style.transform = "scale(1)";
+            setTimeout(function () {
+                document.body.classList.add("loaded");
+                loader.classList.add("fade");
+                setTimeout(function () { loader.remove(); }, 800);
+            }, 180);
+        }, 110);
+    }, 2050);
+})();
+&lt;/script&gt;
+</pre>
+
+<hr>
+<h2>Live demo</h2>
+<p>The animation running right here (reload the page to see it again):</p>
+
+<div id="demo" style="position:relative; width:160px; height:160px; border:1px solid #ccc;">
+    <svg id="hilbert" viewBox="0 0 400 400" style="display:block;width:100%;height:auto;">
+        <path id="curve" fill="none" stroke="#222" stroke-width="3"
+              stroke-linejoin="round" stroke-linecap="round"></path>
+    </svg>
+</div>
+
+<script>
+(function () {
+    function hilbertPath(order, size, margin) {
+        var n = 1 << order;
+        var scale = (size - 2 * margin) / (n - 1);
+        var d = "";
+        for (var i = 0; i < n * n; i++) {
+            var x = 0, y = 0, t = i;
+            for (var s = 1; s < n; s *= 2) {
+                var rx = (t >> 1) & 1;
+                var ry = (t ^ rx) & 1;
+                if (ry === 0) {
+                    if (rx === 1) { x = s - 1 - x; y = s - 1 - y; }
+                    var tmp = x; x = y; y = tmp;
+                }
+                x += s * rx;
+                y += s * ry;
+                t >>= 2;
+            }
+            var px = margin + x * scale;
+            var py = size - margin - y * scale;
+            d += (i === 0 ? "M" : "L") + px.toFixed(2) + " " + py.toFixed(2);
+        }
+        return d;
+    }
+
+    var path = document.getElementById("curve");
+    path.setAttribute("d", hilbertPath(4, 400, 16));
+    var len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    path.getBoundingClientRect();
+    path.style.transition = "stroke-dashoffset 2s linear";
+    path.style.strokeDashoffset = "0";
+})();
+</script>
+
+</body>
+</html>
