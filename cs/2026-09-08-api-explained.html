@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API explained &middot; Yifan Mo</title>
+    <link rel="stylesheet" href="../style.css">
+    <script>
+    MathJax = {
+        tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+        options: { skipHtmlTags: ['pre','code','script','style','textarea'] }
+    };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="no-loader">
+
+    <header class="site">
+        <span class="name"><a href="../index.html">Yifan Mo</a></span>
+        <nav class="site">
+            <a href="../index.html">Home</a>
+            <a href="../math.html">Math</a>
+            <a href="../cs.html">CS</a>
+            <a href="../thoughts.html">Thoughts</a>
+            <a href="../friends.html">Friends</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="post-header">
+            <h1>API explained</h1>
+            <div class="meta">2026-09-08</div>
+        </div>
+
+        <div class="post-body">
+            <p>An <strong>API</strong> (Application Programming Interface) is a set of defined rules and protocols that allows two different software applications to communicate and exchange data with each other.</p><p>Clients send request via the internet to web servers, and the request usually includes an <strong>API Key</strong> (a digital identity card) to prove the client has permission to access the data.</p><p>HTTPS sets up secure connection between two computers, e.g. your phone sends an HTTPS request to the weather app's  server, but the server needs to recognize the message and do the things as requested. This rulebook that translates the request to actions is <strong>API documentation</strong>. In this context, the entire action of request is called <strong>API call</strong>.</p><p>The main take-away is that <strong>API lets softwares to talk to each other</strong>. This is especially important to the modern internet services because it lets developers connect existing blocks of technology together without having to know the specifics of each component. For example, an app may use Google Maps API, Venmo API, and ChatGPT API.</p><p>The creation of API dates way back, but the way AI uses it is modern and a bit more complex. People developed a framework (standard) called <strong>MCP (Model Context Protocol)</strong> that wraps around API for the purpose of <strong>letting AI models discover and use tools/data exposed by software in a standardized way</strong>. MCP is an additional layer between AI model and software services. For example, an AI agent decides to create a new branch in your github repo, it tells the MCP server which github tools to call, and MCP server makes standard API call to github servers. Calls to other services would look similar in format at the MCP call step. This way, the agent does not need to know the specific formats for API calls for individual services; developers enjoy more standardization and interoperability when building agents.</p><p><img src="images/20260908-112311.jpg" alt=""></p>
+        </div>
+
+        <p style="margin-top: 40px;"><a class="back" href="../cs.html">&larr; Back to CS</a></p>
+    </main>
+
+</body>
+</html>

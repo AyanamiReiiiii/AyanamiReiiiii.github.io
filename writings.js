@@ -5,6 +5,12 @@
 
 window.WRITINGS = [
   {
+    "title": "API explained",
+    "date": "2026-09-08",
+    "category": "cs",
+    "file": "cs/2026-09-08-api-explained.html"
+  },
+  {
     "title": "On IDE, git, and workflow (To be updated)",
     "date": "2026-08-24",
     "category": "cs",
