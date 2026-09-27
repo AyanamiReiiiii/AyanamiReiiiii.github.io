@@ -263,6 +263,7 @@ renderPreview();
 
 var writingsCache = [];
 var editingFile = null; // manifest file path being edited, or null for a new post
+var editingTitle = null; // the title that file was loaded with, so we can tell when the user has typed something new
 
 function refreshWritings() {
   fetch('/writings')
@@ -354,6 +355,7 @@ function loadWriting(w) {
     .then(function (j) {
       if (!j.ok) { titlewarn.textContent = 'Could not load that writing: ' + j.error; titlewarn.style.display = 'block'; return; }
       editingFile = w.file;
+      editingTitle = w.title;
       title.value = w.title;
       $('date').value = j.meta.date || w.date;
       $('desc').value = w.desc || '';
@@ -371,6 +373,15 @@ function loadWriting(w) {
 
 function checkTitle() {
   var t = title.value.trim().toLowerCase();
+
+  // Once the typed title no longer matches the writing that was loaded for
+  // editing, drop out of "editing" mode — otherwise Publish would silently
+  // overwrite that old file with the new, unrelated title.
+  if (editingFile && t !== editingTitle.trim().toLowerCase()) {
+    editingFile = null;
+    editingTitle = null;
+  }
+
   editbadge.style.display = editingFile ? 'block' : 'none';
   publishBtn.textContent = editingFile ? 'Update' : 'Publish';
   deleteBtn.hidden = !editingFile;
@@ -507,6 +518,7 @@ deleteBtn.addEventListener('click', function () {
   .then(function (j) {
     if (!j.ok) throw new Error(j.error || 'delete failed');
     editingFile = null;
+    editingTitle = null;
     title.value = '';
     $('desc').value = '';
     content.value = '';

@@ -5,6 +5,12 @@
 
 window.WRITINGS = [
   {
+    "title": "Some facts about accessing LLM models",
+    "date": "2026-09-27",
+    "category": "cs",
+    "file": "cs/2026-09-27-some-facts-about-accessing-llm-models.html"
+  },
+  {
     "title": "API explained",
     "date": "2026-09-08",
     "category": "cs",

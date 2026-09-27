@@ -325,7 +325,14 @@ def main():
         server.serve_forever()
     except KeyboardInterrupt:
         print("\nDone!")
-        print("If you published anything, ship it from VS Code:")
+        print("If you published anything, ship it.")
+        print()
+        print("From the terminal:")
+        print("  git add -A")
+        print('  git commit -m "your message here"')
+        print("  git push")
+        print()
+        print("Or from VS Code:")
         print("  1. Source Control panel -> click + to stage all -> type a message -> Commit")
         print("  2. ... menu -> Push   (the live site updates from the 'main' branch)")
 
